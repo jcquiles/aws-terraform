@@ -2,6 +2,7 @@ provider "aws" {
     region = "us-east-1"
 }
 
+# creating security group for our instances
 resource "aws_security_group" "webserver" {
   name        = "helloworld"
   description = "allow ssh and http traffic"
@@ -33,14 +34,14 @@ resource "aws_instance" "webserver" {
   ami               = "ami-0279c3b3186e54acd"
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
-  security_groups   = ["${aws_security_group.webserver.name}"]
+  security_groups   = [aws_security_group.webserver.name]
   key_name = "hello-world"
   user_data = <<-EOF
                 #! /bin/bash
-                sudo yum install httpd -y
-                sudo systemctl start httpd
-                sudo systemctl enable httpd
-                echo "<h1>Hello GR World"</h1>" >> /var/www/html/index.html
+                sudo apt-get install -y nginx
+                sudo systemctl enable nginx
+                sudo systemctl start nginx
+                echo "<h1>Hello GR World</h1>" >> /var/www/html/index.html
   EOF
 
   tags = {
@@ -49,7 +50,15 @@ resource "aws_instance" "webserver" {
 
 }
 
-#creating and attaching ebs volume
+#assigning EIP to our instance
+resource "aws_eip" "hello_ip" {
+  instance = aws_instance.webserver.id
+  tags = {
+        Name = "hello_ip"
+  }
+}
+
+#creating ebs volume
 resource "aws_ebs_volume" "data_vol" {
  availability_zone = "us-east-1a"
  size = 1
@@ -59,9 +68,10 @@ resource "aws_ebs_volume" "data_vol" {
 
 }
 
+#attaching ebs volume to instance
 resource "aws_volume_attachment" "hello_world" {
- device_name = "/dev/sdh"
- volume_id = "${aws_ebs_volume.data_vol.id}"
- instance_id = "${aws_instance.webserver.id}"
+ device_name = "/dev/sda"
+ volume_id = aws_ebs_volume.data_vol.id
+ instance_id = aws_instance.webserver.id
 }
 
