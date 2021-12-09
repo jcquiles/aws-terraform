@@ -1,4 +1,4 @@
-# Helloworld Web Server
+# Hello World Web Server
 This is a repository using Terraform to create an instance with a block storage volume to create an index.html web page. The instance serves a webpage index.html using a 1 GB attached block storage volume residing on a valid partition table, mounted automatically upon boot.
 
 ## High Level Overview:
@@ -13,7 +13,7 @@ This is a repository using Terraform to create an instance with a block storage 
 
 ## Getting Started:
 
-Clone the repo, create a branch and intialize the repository.
+* Clone the repo, create a branch and intialize the repository.
 
 ```bash
 git clone https://github.com/jcquiles/helloworld.git
@@ -23,13 +23,11 @@ git checkout -b <branch_name>
 
 * [Terraform v0.13.3](https://www.terraform.io/downloads.html)
 * AWS credentials to build the terraform via command line
-```bash
-aws --version
-aws configure
-```
-* aws key pair
+* `aws --version`
+* `aws configure`
+* **AWS key pair**
 
-## Provisioning Webserver:
+## Provisioning Webserver via Terraform:
 
 * Terraform init: `terraform init`
 * Terraform plan: `terraform plan`
@@ -51,3 +49,19 @@ aws_volume_attachment.hello_world: Still creating... [10s elapsed]
 aws_volume_attachment.hello_world: Creation complete after 22s [id=vai-219113884]
 Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
 ```
+## Why use Terraform for IAC?
+
+* Terraform is a powerful tool in your orchestration armory, it allows you to create, update, and control versioning of cloud infrastructure. Terraform provides benefits that include automated infrastructure management, lower deployment costs, and reduced provisioning time.
+
+* Terraform lets you define infrastructure in config/code and will enable you to rebuild/change and track changes to infrastructure with ease.
+
+## Pros and cons?
+
+* Terraform is cloud agnostic.**+**
+* Templating is possible to make the Terraform templates reusable.**+**
+* Variables can be created to make the templates generic so that it can be reused.**+**
+* Terraform doesn't have a GUI which would have made its use a lot easier.**-**
+* There is no auto-rollback feature upon failure. **-**
+
+
+
