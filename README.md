@@ -1,10 +1,6 @@
 # Hello World Web Server
 This is a repository using Terraform to create an instance with a block storage volume to create an index.html web page. The instance serves a webpage index.html using a 1 GB attached block storage volume residing on a valid partition table, mounted automatically upon boot.
 
-# Hello GR World web page:
-
-* [HELLO GR WORLD WEB PAGE](http://35.174.73.43/)
-
 ## High Level Overview:
 
 * Create AWS instance using Terraform.
